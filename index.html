@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HGUGM Residencias — Plataforma de Formación MIR</title>
+  <meta name="description" content="Plataforma de aulas virtuales para residentes del Hospital General Universitario Gregorio Marañón. Cirugía General, Torácica, Urología, Neurocirugía, Maxilofacial, Traumatología." />
+  <meta name="theme-color" content="#0f4c81" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="HGUGM Residencias — Plataforma de Formación MIR" />
+  <meta property="og:description" content="Aulas virtuales bilingües (EN/ES) para residentes del Hospital General Universitario Gregorio Marañón, Madrid." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://lozanon57.github.io/hgugm-residencias/" />
+
+  <style>
+    /* ── Reset & Custom Properties ────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:       #0f4c81;
+      --navy-light: #1a5fa0;
+      --teal:       #0d9488;
+      --teal-light: #14b8a6;
+      --teal-100:   #ccfbf1;
+      --bg:         #f8fafc;
+      --card:       #ffffff;
+      --text:       #1e293b;
+      --muted:      #64748b;
+      --border:     #e2e8f0;
+      --shadow-sm:  0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.04);
+      --shadow-md:  0 4px 16px rgba(0,0,0,.10), 0 2px 4px rgba(0,0,0,.06);
+      --shadow-lg:  0 10px 40px rgba(0,0,0,.12), 0 4px 12px rgba(0,0,0,.08);
+      --radius:     12px;
+      --font-body:  'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg:     #0f172a;
+        --card:   #1e293b;
+        --text:   #f1f5f9;
+        --muted:  #94a3b8;
+        --border: #334155;
+      }
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── Nav ──────────────────────────────────────────────── */
+    .nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    @media (prefers-color-scheme: dark) {
+      .nav { background: rgba(15,23,42,0.92); }
+    }
+    .nav-brand {
+      display: flex; align-items: center; gap: 10px;
+      font-weight: 700; font-size: 0.95rem; color: var(--navy);
+    }
+    @media (prefers-color-scheme: dark) { .nav-brand { color: var(--teal-light); } }
+    .nav-brand svg { width: 28px; height: 28px; flex-shrink: 0; }
+    .nav-lang {
+      display: flex; gap: 4px;
+    }
+    .lang-btn {
+      padding: 4px 10px; border-radius: 6px; font-size: 0.78rem; font-weight: 600;
+      cursor: pointer; border: 1px solid var(--border); background: transparent;
+      color: var(--muted); transition: all .15s;
+    }
+    .lang-btn.active, .lang-btn:hover {
+      background: var(--navy); color: #fff; border-color: var(--navy);
+    }
+    @media (prefers-color-scheme: dark) {
+      .lang-btn.active, .lang-btn:hover { background: var(--teal); border-color: var(--teal); }
+    }
+
+    /* ── Hero ─────────────────────────────────────────────── */
+    .hero {
+      background: linear-gradient(135deg, var(--navy) 0%, #1a6fa8 40%, var(--teal) 100%);
+      color: #fff;
+      text-align: center;
+      padding: 80px 24px 100px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(13,148,136,.25) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255,255,255,.15);
+      border: 1px solid rgba(255,255,255,.3);
+      border-radius: 100px;
+      padding: 5px 16px;
+      font-size: 0.75rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      font-weight: 800; line-height: 1.15;
+      margin-bottom: 16px;
+    }
+    .hero-sub {
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      opacity: .85; margin-bottom: 8px;
+    }
+    .hero-inst {
+      font-size: 0.9rem; opacity: .7;
+    }
+    .hero-stats {
+      display: flex; gap: 32px; justify-content: center; flex-wrap: wrap;
+      margin-top: 40px;
+    }
+    .hero-stat { text-align: center; }
+    .hero-stat-value { font-size: 2rem; font-weight: 800; line-height: 1; }
+    .hero-stat-label { font-size: 0.78rem; opacity: .75; margin-top: 4px; text-transform: uppercase; letter-spacing: .05em; }
+
+    /* ── Main Content ─────────────────────────────────────── */
+    .main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 24px 80px;
+    }
+
+    .section-header {
+      text-align: center; margin-bottom: 40px;
+    }
+    .section-header h2 {
+      font-size: 1.75rem; font-weight: 700; color: var(--navy);
+      margin-bottom: 8px;
+    }
+    @media (prefers-color-scheme: dark) { .section-header h2 { color: var(--teal-light); } }
+    .section-header p { color: var(--muted); font-size: 1rem; }
+
+    /* ── Specialty Cards Grid ─────────────────────────────── */
+    .specialties-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+      margin-bottom: 60px;
+    }
+
+    .specialty-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      transition: transform .2s, box-shadow .2s;
+      display: flex; flex-direction: column;
+      position: relative;
+    }
+    .specialty-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .card-accent {
+      height: 5px;
+      background: linear-gradient(90deg, var(--card-color, var(--teal)), var(--card-color2, var(--navy)));
+    }
+
+    .card-body {
+      padding: 24px;
+      flex: 1; display: flex; flex-direction: column;
+    }
+
+    .card-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, var(--card-color, var(--teal)), var(--card-color2, var(--navy)));
+    }
+
+    .card-specialty {
+      font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .08em; color: var(--muted); margin-bottom: 6px;
+    }
+
+    .card-title {
+      font-size: 1.2rem; font-weight: 700;
+      color: var(--text); line-height: 1.3; margin-bottom: 8px;
+    }
+
+    .card-desc {
+      font-size: 0.875rem; color: var(--muted);
+      line-height: 1.55; margin-bottom: 16px; flex: 1;
+    }
+
+    .card-meta {
+      display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px;
+    }
+    .badge {
+      font-size: 0.7rem; font-weight: 600;
+      padding: 3px 8px; border-radius: 100px;
+      background: var(--teal-100); color: var(--teal);
+    }
+    @media (prefers-color-scheme: dark) {
+      .badge { background: rgba(13,148,136,.2); color: var(--teal-light); }
+    }
+
+    .card-actions {
+      display: flex; gap: 10px; margin-top: auto;
+    }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 9px 16px; border-radius: 8px;
+      font-size: 0.85rem; font-weight: 600;
+      cursor: pointer; transition: all .15s;
+      border: none;
+    }
+    .btn-primary {
+      background: var(--navy); color: #fff; flex: 1; justify-content: center;
+    }
+    .btn-primary:hover { background: var(--navy-light); }
+    .btn-outline {
+      background: transparent; color: var(--muted);
+      border: 1px solid var(--border);
+    }
+    .btn-outline:hover { border-color: var(--navy); color: var(--navy); }
+
+    /* ── Features section ─────────────────────────────────── */
+    .features {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 48px 40px;
+      border: 1px solid var(--border);
+      margin-bottom: 60px;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 32px;
+      margin-top: 32px;
+    }
+    .feature { display: flex; gap: 14px; align-items: flex-start; }
+    .feature-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: linear-gradient(135deg, var(--teal), var(--navy));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0;
+    }
+    .feature h3 { font-size: 0.9rem; font-weight: 700; margin-bottom: 4px; }
+    .feature p { font-size: 0.82rem; color: var(--muted); line-height: 1.5; }
+
+    /* ── Footer ───────────────────────────────────────────── */
+    .footer {
+      background: var(--navy);
+      color: rgba(255,255,255,.8);
+      text-align: center;
+      padding: 32px 24px;
+      font-size: 0.83rem;
+    }
+    .footer strong { color: #fff; }
+    .footer a { color: var(--teal-light); }
+
+    /* ── Responsive ───────────────────────────────────────── */
+    @media (max-width: 640px) {
+      .hero { padding: 60px 20px 80px; }
+      .hero-stats { gap: 20px; }
+      .main { padding: 40px 16px 60px; }
+      .features { padding: 32px 20px; }
+      .specialties-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav class="nav">
+    <div class="nav-brand">
+      <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="28" height="28" rx="7" fill="#0f4c81"/>
+        <path d="M14 6v16M6 14h16" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="14" cy="14" r="3.5" fill="#0d9488"/>
+      </svg>
+      <span>HGUGM Residencias</span>
+    </div>
+    <div class="nav-lang">
+      <button class="lang-btn active" id="btnEN" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" id="btnES" onclick="setLang('es')">ES</button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-badge" data-i18n="hero.badge">Residency Training Platform</div>
+    <h1 data-i18n="hero.title">HGUGM Virtual Classrooms</h1>
+    <p class="hero-sub" data-i18n="hero.subtitle">Bilingual residency courses for MIR trainees</p>
+    <p class="hero-inst" data-i18n="hero.institution">Hospital General Universitario Gregorio Marañón · Madrid</p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-value">6</div>
+        <div class="hero-stat-label" data-i18n="stats.specialties">Specialties</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-value">174</div>
+        <div class="hero-stat-label" data-i18n="stats.chapters">Chapters</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-value">3 480</div>
+        <div class="hero-stat-label" data-i18n="stats.questions">Board Questions</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-value">2</div>
+        <div class="hero-stat-label" data-i18n="stats.languages">Languages</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main -->
+  <main class="main">
+
+    <div class="section-header">
+      <h2 data-i18n="courses.title">Choose Your Specialty</h2>
+      <p data-i18n="courses.subtitle">Each course includes chapters, 20 board questions per chapter, clinical pearls, and spaced-repetition review</p>
+    </div>
+
+    <div class="specialties-grid">
+
+      <!-- General Surgery -->
+      <div class="specialty-card" style="--card-color:#0d9488; --card-color2:#0f4c81;">
+        <div class="card-accent"></div>
+        <div class="card-body">
+          <div class="card-icon">🔪</div>
+          <div class="card-specialty" data-i18n="spec.surgical">General Surgery</div>
+          <div class="card-title" data-i18n="spec.surgical.title">Cirugía General y Digestiva</div>
+          <p class="card-desc" data-i18n="spec.surgical.desc">Oncological surgery, colorectal, gastric, HPB, breast, sarcoma, emergency surgery, hernia, bariatric, endocrine surgery. Based on NCCN & ESMO guidelines.</p>
+          <div class="card-meta">
+            <span class="badge" data-i18n="badge.chapters_31">31 Chapters</span>
+            <span class="badge">EN / ES</span>
+            <span class="badge">NCCN 2024</span>
+          </div>
+          <div class="card-actions">
+            <a href="https://lozanon57.github.io/hgugm-residencia-cirugia/" target="_blank" rel="noopener" class="btn btn-primary" data-i18n="btn.open">Open Course →</a>
+            <a href="https://github.com/lozanon57/hgugm-residencia-cirugia" target="_blank" rel="noopener" class="btn btn-outline" title="GitHub">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Thoracic Surgery -->
+      <div class="specialty-card" style="--card-color:#0ea5e9; --card-color2:#0f4c81;">
+        <div class="card-accent"></div>
+        <div class="card-body">
+          <div class="card-icon">🫁</div>
+          <div class="card-specialty" data-i18n="spec.thoracic">Thoracic Surgery</div>
+          <div class="card-title" data-i18n="spec.thoracic.title">Cirugía Torácica</div>
+          <p class="card-desc" data-i18n="spec.thoracic.desc">NSCLC staging & resection, esophageal cancer, mediastinal tumors, pleural disease, VATS & robotic surgery, tracheal surgery. Based on NCCN & ESTS guidelines.</p>
+          <div class="card-meta">
+            <span class="badge">31 Chapters</span>
+            <span class="badge">EN / ES</span>
+            <span class="badge">NCCN · ESTS 2024</span>
+          </div>
+          <div class="card-actions">
+            <a href="https://lozanon57.github.io/thoracic-residency-hgugm/" target="_blank" rel="noopener" class="btn btn-primary" data-i18n="btn.open">Open Course →</a>
+            <a href="https://github.com/lozanon57/thoracic-residency-hgugm" target="_blank" rel="noopener" class="btn btn-outline" title="GitHub">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Urology -->
+      <div class="specialty-card" style="--card-color:#8b5cf6; --card-color2:#0f4c81;">
+        <div class="card-accent"></div>
+        <div class="card-body">
+          <div class="card-icon">🫘</div>
+          <div class="card-specialty" data-i18n="spec.urology">Urology</div>
+          <div class="card-title" data-i18n="spec.urology.title">Urología</div>
+          <p class="card-desc" data-i18n="spec.urology.desc">Prostate, renal, bladder & testicular cancer; BPH & LUTS; urolithiasis & endourology; female urology; robotic urology. Based on EAU & NCCN 2024 guidelines.</p>
+          <div class="card-meta">
+            <span class="badge">25 Chapters</span>
+            <span class="badge">EN / ES</span>
+            <span class="badge">EAU 2024</span>
+          </div>
+          <div class="card-actions">
+            <a href="https://lozanon57.github.io/urology-residency-hgugm/" target="_blank" rel="noopener" class="btn btn-primary" data-i18n="btn.open">Open Course →</a>
+            <a href="https://github.com/lozanon57/urology-residency-hgugm" target="_blank" rel="noopener" class="btn btn-outline" title="GitHub">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Neurosurgery -->
+      <div class="specialty-card" style="--card-color:#f59e0b; --card-color2:#0f4c81;">
+        <div class="card-accent"></div>
+        <div class="card-body">
+          <div class="card-icon">🧠</div>
+          <div class="card-specialty" data-i18n="spec.neuro">Neurosurgery</div>
+          <div class="card-title" data-i18n="spec.neuro.title">Neurocirugía</div>
+          <p class="card-desc" data-i18n="spec.neuro.desc">Neuro-oncology (GBM, gliomas, meningioma), cerebrovascular surgery, spine surgery, functional neurosurgery (DBS, epilepsy), skull base & trauma. Based on EANS & CNS guidelines.</p>
+          <div class="card-meta">
+            <span class="badge">26 Chapters</span>
+            <span class="badge">EN / ES</span>
+            <span class="badge">EANS 2024</span>
+          </div>
+          <div class="card-actions">
+            <a href="https://lozanon57.github.io/neurosurgery-residency-hgugm/" target="_blank" rel="noopener" class="btn btn-primary" data-i18n="btn.open">Open Course →</a>
+            <a href="https://github.com/lozanon57/neurosurgery-residency-hgugm" target="_blank" rel="noopener" class="btn btn-outline" title="GitHub">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Maxillofacial -->
+      <div class="specialty-card" style="--card-color:#ec4899; --card-color2:#0f4c81;">
+        <div class="card-accent"></div>
+        <div class="card-body">
+          <div class="card-icon">🦷</div>
+          <div class="card-specialty" data-i18n="spec.maxillo">Maxillofacial Surgery</div>
+          <div class="card-title" data-i18n="spec.maxillo.title">Cirugía Maxilofacial</div>
+          <p class="card-desc" data-i18n="spec.maxillo.desc">Head & neck oncology, orthognathic surgery, dentoalveolar & implantology, TMJ, facial trauma, cleft & craniofacial surgery. Based on EACMFS & NCCN guidelines.</p>
+          <div class="card-meta">
+            <span class="badge">32 Chapters</span>
+            <span class="badge">EN / ES</span>
+            <span class="badge">EACMFS 2024</span>
+          </div>
+          <div class="card-actions">
+            <a href="https://lozanon57.github.io/maxillofacial-residency-hgugm/" target="_blank" rel="noopener" class="btn btn-primary" data-i18n="btn.open">Open Course →</a>
+            <a href="https://github.com/lozanon57/maxillofacial-residency-hgugm" target="_blank" rel="noopener" class="btn btn-outline" title="GitHub">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Orthopedics -->
+      <div class="specialty-card" style="--card-color:#10b981; --card-color2:#0f4c81;">
+        <div class="card-accent"></div>
+        <div class="card-body">
+          <div class="card-icon">🦴</div>
+          <div class="card-specialty" data-i18n="spec.ortho">Traumatology & Orthopedics</div>
+          <div class="card-title" data-i18n="spec.ortho.title">Traumatología y Ortopedia</div>
+          <p class="card-desc" data-i18n="spec.ortho.desc">Trauma surgery (fractures, polytrauma), hip & knee arthroplasty, spine surgery, sports medicine & arthroscopy, bone tumors, metabolic bone disease. Based on AAOS & EFORT guidelines.</p>
+          <div class="card-meta">
+            <span class="badge">30 Chapters</span>
+            <span class="badge">EN / ES</span>
+            <span class="badge">AAOS · EFORT 2024</span>
+          </div>
+          <div class="card-actions">
+            <a href="https://lozanon57.github.io/orthopedics-residency-hgugm/" target="_blank" rel="noopener" class="btn btn-primary" data-i18n="btn.open">Open Course →</a>
+            <a href="https://github.com/lozanon57/orthopedics-residency-hgugm" target="_blank" rel="noopener" class="btn btn-outline" title="GitHub">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /specialties-grid -->
+
+    <!-- Features -->
+    <div class="features">
+      <div class="section-header" style="margin-bottom:0;">
+        <h2 data-i18n="features.title">Platform Features</h2>
+        <p data-i18n="features.subtitle">Every course shares the same proven learning architecture</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature">
+          <div class="feature-icon">📖</div>
+          <div>
+            <h3 data-i18n="feat.chapters">Structured Chapters</h3>
+            <p data-i18n="feat.chapters.desc">Sections with clinical text, tables, landmark trials, and key-point callouts.</p>
+          </div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">📝</div>
+          <div>
+            <h3 data-i18n="feat.quiz">20 Questions / Chapter</h3>
+            <p data-i18n="feat.quiz.desc">Board-style MCQs with full explanations, guideline references, and difficulty levels.</p>
+          </div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">🔄</div>
+          <div>
+            <h3 data-i18n="feat.spaced">Spaced Repetition</h3>
+            <p data-i18n="feat.spaced.desc">SM-2 algorithm schedules review sessions to maximise long-term retention.</p>
+          </div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">💡</div>
+          <div>
+            <h3 data-i18n="feat.pearls">Daily Clinical Pearls</h3>
+            <p data-i18n="feat.pearls.desc">60 specialty-specific pearls, one surfaced daily with the home screen widget.</p>
+          </div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">🌐</div>
+          <div>
+            <h3 data-i18n="feat.bilingual">Bilingual EN / ES</h3>
+            <p data-i18n="feat.bilingual.desc">All chapter content available in both English and Spanish — toggle in one tap.</p>
+          </div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">📱</div>
+          <div>
+            <h3 data-i18n="feat.pwa">Installable PWA</h3>
+            <p data-i18n="feat.pwa.desc">Install on any device — works offline after first load. No app store required.</p>
+          </div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">📊</div>
+          <div>
+            <h3 data-i18n="feat.progress">Progress Tracking</h3>
+            <p data-i18n="feat.progress.desc">Track chapters completed, quiz scores, reading streaks, and overall coverage.</p>
+          </div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">🔍</div>
+          <div>
+            <h3 data-i18n="feat.search">Full-text Search</h3>
+            <p data-i18n="feat.search.desc">Search across all chapters, sections, clinical pearls, and landmark trials.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>
+      <strong>HGUGM Residencias</strong> —
+      <span data-i18n="footer.text">Open-source bilingual residency training platform.</span>
+      <br>
+      <span data-i18n="footer.hospital">Hospital General Universitario Gregorio Marañón · Madrid, Spain</span>
+      <br>
+      <a href="https://github.com/lozanon57" target="_blank" rel="noopener">github.com/lozanon57</a>
+    </p>
+  </footer>
+
+  <script>
+    /* ── i18n ──────────────────────────────────────────────── */
+    const STRINGS = {
+      en: {
+        'hero.badge': 'Residency Training Platform',
+        'hero.title': 'HGUGM Virtual Classrooms',
+        'hero.subtitle': 'Bilingual residency courses for MIR trainees',
+        'hero.institution': 'Hospital General Universitario Gregorio Marañón · Madrid',
+        'stats.specialties': 'Specialties',
+        'stats.chapters': 'Chapters',
+        'stats.questions': 'Board Questions',
+        'stats.languages': 'Languages',
+        'courses.title': 'Choose Your Specialty',
+        'courses.subtitle': 'Each course includes chapters, 20 board questions per chapter, clinical pearls, and spaced-repetition review',
+        'spec.surgical': 'General Surgery',
+        'spec.surgical.title': 'Cirugía General y Digestiva',
+        'spec.surgical.desc': 'Oncological surgery, colorectal, gastric, HPB, breast, sarcoma, emergency surgery, hernia, bariatric, endocrine surgery. Based on NCCN & ESMO guidelines.',
+        'spec.thoracic': 'Thoracic Surgery',
+        'spec.thoracic.title': 'Cirugía Torácica',
+        'spec.thoracic.desc': 'NSCLC staging & resection, esophageal cancer, mediastinal tumors, pleural disease, VATS & robotic surgery, tracheal surgery. Based on NCCN & ESTS guidelines.',
+        'spec.urology': 'Urology',
+        'spec.urology.title': 'Urología',
+        'spec.urology.desc': 'Prostate, renal, bladder & testicular cancer; BPH & LUTS; urolithiasis & endourology; female urology; robotic urology. Based on EAU & NCCN 2024 guidelines.',
+        'spec.neuro': 'Neurosurgery',
+        'spec.neuro.title': 'Neurocirugía',
+        'spec.neuro.desc': 'Neuro-oncology (GBM, gliomas, meningioma), cerebrovascular surgery, spine surgery, functional neurosurgery (DBS, epilepsy), skull base & trauma. Based on EANS & CNS guidelines.',
+        'spec.maxillo': 'Maxillofacial Surgery',
+        'spec.maxillo.title': 'Cirugía Maxilofacial',
+        'spec.maxillo.desc': 'Head & neck oncology, orthognathic surgery, dentoalveolar & implantology, TMJ, facial trauma, cleft & craniofacial surgery. Based on EACMFS & NCCN guidelines.',
+        'spec.ortho': 'Traumatology & Orthopedics',
+        'spec.ortho.title': 'Traumatología y Ortopedia',
+        'spec.ortho.desc': 'Trauma surgery (fractures, polytrauma), hip & knee arthroplasty, spine surgery, sports medicine & arthroscopy, bone tumors, metabolic bone disease. Based on AAOS & EFORT guidelines.',
+        'btn.open': 'Open Course →',
+        'features.title': 'Platform Features',
+        'features.subtitle': 'Every course shares the same proven learning architecture',
+        'feat.chapters': 'Structured Chapters',
+        'feat.chapters.desc': 'Sections with clinical text, tables, landmark trials, and key-point callouts.',
+        'feat.quiz': '20 Questions / Chapter',
+        'feat.quiz.desc': 'Board-style MCQs with full explanations, guideline references, and difficulty levels.',
+        'feat.spaced': 'Spaced Repetition',
+        'feat.spaced.desc': 'SM-2 algorithm schedules review sessions to maximise long-term retention.',
+        'feat.pearls': 'Daily Clinical Pearls',
+        'feat.pearls.desc': '60 specialty-specific pearls, one surfaced daily with the home screen widget.',
+        'feat.bilingual': 'Bilingual EN / ES',
+        'feat.bilingual.desc': 'All chapter content available in both English and Spanish — toggle in one tap.',
+        'feat.pwa': 'Installable PWA',
+        'feat.pwa.desc': 'Install on any device — works offline after first load. No app store required.',
+        'feat.progress': 'Progress Tracking',
+        'feat.progress.desc': 'Track chapters completed, quiz scores, reading streaks, and overall coverage.',
+        'feat.search': 'Full-text Search',
+        'feat.search.desc': 'Search across all chapters, sections, clinical pearls, and landmark trials.',
+        'footer.text': 'Open-source bilingual residency training platform.',
+        'footer.hospital': 'Hospital General Universitario Gregorio Marañón · Madrid, Spain',
+      },
+      es: {
+        'hero.badge': 'Plataforma de Formación MIR',
+        'hero.title': 'Aulas Virtuales HGUGM',
+        'hero.subtitle': 'Cursos bilingües para residentes MIR',
+        'hero.institution': 'Hospital General Universitario Gregorio Marañón · Madrid',
+        'stats.specialties': 'Especialidades',
+        'stats.chapters': 'Capítulos',
+        'stats.questions': 'Preguntas Board',
+        'stats.languages': 'Idiomas',
+        'courses.title': 'Elige tu Especialidad',
+        'courses.subtitle': 'Cada curso incluye capítulos, 20 preguntas board por capítulo, perlas clínicas y repaso espaciado',
+        'spec.surgical': 'Cirugía General',
+        'spec.surgical.title': 'Cirugía General y Digestiva',
+        'spec.surgical.desc': 'Cirugía oncológica, colorrectal, gástrica, HPB, mama, sarcoma, cirugía urgente, hernia, bariátrica y endocrina. Basado en guías NCCN y ESMO.',
+        'spec.thoracic': 'Cirugía Torácica',
+        'spec.thoracic.title': 'Cirugía Torácica',
+        'spec.thoracic.desc': 'Estadificación y resección CPNM, cáncer de esófago, tumores mediastínicos, patología pleural, VATS y cirugía robótica, cirugía traqueal. Guías NCCN y ESTS.',
+        'spec.urology': 'Urología',
+        'spec.urology.title': 'Urología',
+        'spec.urology.desc': 'Cáncer de próstata, riñón, vejiga y testículo; HBP y SVBI; urolitiasis y endourología; urología femenina; urología robótica. Guías EAU y NCCN 2024.',
+        'spec.neuro': 'Neurocirugía',
+        'spec.neuro.title': 'Neurocirugía',
+        'spec.neuro.desc': 'Neuro-oncología (GBM, gliomas, meningioma), cirugía cerebrovascular, cirugía de columna, neurocirugía funcional (ECP, epilepsia), base de cráneo y trauma. Guías EANS y CNS.',
+        'spec.maxillo': 'Cirugía Maxilofacial',
+        'spec.maxillo.title': 'Cirugía Maxilofacial',
+        'spec.maxillo.desc': 'Oncología de cabeza y cuello, cirugía ortognática, cirugía dentoalveolar e implantología, ATM, traumatismo facial, labio/paladar hendido y craneofacial. Guías EACMFS y NCCN.',
+        'spec.ortho': 'Traumatología y Ortopedia',
+        'spec.ortho.title': 'Traumatología y Ortopedia',
+        'spec.ortho.desc': 'Cirugía traumatológica (fracturas, politraumatizado), artroplastia de cadera y rodilla, cirugía de columna, cirugía artroscópica, tumores óseos, osteoporosis. Guías AAOS y EFORT.',
+        'btn.open': 'Abrir Curso →',
+        'features.title': 'Características de la Plataforma',
+        'features.subtitle': 'Todos los cursos comparten la misma arquitectura pedagógica probada',
+        'feat.chapters': 'Capítulos Estructurados',
+        'feat.chapters.desc': 'Secciones con texto clínico, tablas, ensayos clave y cuadros de puntos clave.',
+        'feat.quiz': '20 Preguntas / Capítulo',
+        'feat.quiz.desc': 'Tipo MIR/Board con explicaciones completas, referencias a guías y niveles de dificultad.',
+        'feat.spaced': 'Repaso Espaciado',
+        'feat.spaced.desc': 'El algoritmo SM-2 programa las sesiones de repaso para maximizar la retención a largo plazo.',
+        'feat.pearls': 'Perlas Clínicas Diarias',
+        'feat.pearls.desc': '60 perlas por especialidad, una al día en la pantalla de inicio.',
+        'feat.bilingual': 'Bilingüe EN / ES',
+        'feat.bilingual.desc': 'Todo el contenido disponible en inglés y español — cambio con un clic.',
+        'feat.pwa': 'PWA Instalable',
+        'feat.pwa.desc': 'Instálalo en cualquier dispositivo — funciona sin conexión tras la primera carga.',
+        'feat.progress': 'Seguimiento del Progreso',
+        'feat.progress.desc': 'Registra capítulos completados, puntuaciones de quiz, racha de lectura y cobertura global.',
+        'feat.search': 'Búsqueda de Texto Completo',
+        'feat.search.desc': 'Busca en todos los capítulos, secciones, perlas clínicas y ensayos clave.',
+        'footer.text': 'Plataforma de formación de residentes bilingüe y de código abierto.',
+        'footer.hospital': 'Hospital General Universitario Gregorio Marañón · Madrid, España',
+      }
+    };
+
+    let currentLang = localStorage.getItem('hgugm-lang') || 'en';
+
+    function setLang(lang) {
+      currentLang = lang;
+      localStorage.setItem('hgugm-lang', lang);
+      document.documentElement.lang = lang;
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.dataset.i18n;
+        if (STRINGS[lang] && STRINGS[lang][key]) el.textContent = STRINGS[lang][key];
+      });
+      document.getElementById('btnEN').classList.toggle('active', lang === 'en');
+      document.getElementById('btnES').classList.toggle('active', lang === 'es');
+    }
+
+    // Init
+    setLang(currentLang);
+  </script>
+</body>
+</html>
